@@ -49,7 +49,7 @@ export default function QuizPlay({ branchSlug, questions = [], onComplete }) {
         <div className="grid gap-2">
           <RadioGroup value={String(selected)} onValueChange={(v) => select(Number(v))}>
             {current.options?.map((opt, i) => (
-              &lt;label key={i} className={`flex items-center gap-3 rounded-md border p-3 cursor-pointer transition-colors ${selected === i ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20" : "hover:bg-muted/50"}`}>
+              <label key={i} className={`flex items-center gap-3 rounded-md border p-3 cursor-pointer transition-colors ${selected === i ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20" : "hover:bg-muted/50"}`}>
                 &lt;input type="radio" name="opt" className="accent-emerald-600 h-4 w-4" checked={selected === i} onChange={() => select(i)} />
                 &lt;span>{opt}&lt;/span>
               &lt;/label>
