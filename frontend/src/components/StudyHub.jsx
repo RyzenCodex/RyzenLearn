@@ -194,7 +194,7 @@ export default function StudyHub() {
               <CardTitle className="text-base">Progress</CardTitle>
             </CardHeader>
             <CardContent>
-              {(() =&gt; {
+              {(() => {
                 const total = tasks.length || 1;
                 const done = tasks.filter((t) =&gt; t.done).length;
                 const v = Math.round((done / total) * 100);
