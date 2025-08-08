@@ -76,7 +76,7 @@ export default function StudyHub() {
                 <Button className="bg-emerald-600 hover:bg-emerald-700 text-white" onClick={() => document.getElementById("branches").scrollIntoView({ behavior: "smooth" })}>
                   Explore Branches
                 </Button>
-                <Button variant="secondary" onClick={() =&gt; document.getElementById("quiz").scrollIntoView({ behavior: "smooth" })}>
+                <Button variant="secondary" onClick={() => document.getElementById("quiz").scrollIntoView({ behavior: "smooth" })}>
                   Take a Quick Quiz
                 </Button>
               </div>
