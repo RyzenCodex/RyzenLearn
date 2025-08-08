@@ -153,7 +153,7 @@ export default function StudyHub() {
                     </div>
                     <Separator />
                     <ul className="list-disc pl-5 space-y-1">
-                      {b.activities.map((a, i) =&gt; <li key={i}>{a}</li>)}
+                      {b.activities.map((a, i) => <li key={i}>{a}</li>)}
                     </ul>
                   </CardContent>
                 </Card>
