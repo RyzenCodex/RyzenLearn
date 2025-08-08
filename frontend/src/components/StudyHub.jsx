@@ -128,7 +128,7 @@ export default function StudyHub() {
                       </ul>
                       <h4 className="font-medium mt-4 mb-2">Influential Psychologists</h4>
                       <div className="flex flex-wrap gap-2">
-                        {b.psychologists.map((p, i) =&gt; <Badge key={i} variant="outline">{p}</Badge>)}
+                        {b.psychologists.map((p, i) => <Badge key={i} variant="outline">{p}</Badge>)}
                       </div>
                     </div>
                     <div>
