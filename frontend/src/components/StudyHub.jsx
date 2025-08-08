@@ -234,7 +234,7 @@ export default function StudyHub() {
             </CardContent>
           </Card>
           <div className="md:col-span-2">
-            <QuizPlay key={quizKey} branchSlug={branchForQuiz} questions={BRANCHES.find((b) =&gt; b.slug === branchForQuiz)?.quiz || []} onComplete={onQuizComplete} />
+            <QuizPlay key={quizKey} branchSlug={branchForQuiz} questions={BRANCHES.find((b) => b.slug === branchForQuiz)?.quiz || []} onComplete={onQuizComplete} />
           </div>
         </div>
       </section>
