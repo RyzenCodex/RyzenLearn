@@ -57,7 +57,7 @@ export default function StudyHub() {
     const prev = getQuizProgress(branchForQuiz);
     const best = Math.max(prev.best || 0, score);
     setQuizProgress(branchForQuiz, { best });
-    setQuizKey((k) =&gt; k + 1);
+    setQuizKey((k) => k + 1);
   };
 
   const bestScore = getQuizProgress(branchForQuiz).best || 0;
