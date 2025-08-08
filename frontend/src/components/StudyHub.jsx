@@ -178,7 +178,7 @@ export default function StudyHub() {
               <div className="space-y-2">
                 {tasks.map((t, i) => (
                   <label key={i} className="flex items-start gap-3 rounded-md border p-2">
-                    <Checkbox checked={t.done} onCheckedChange={(v) =&gt; markTask(i, !!v)} />
+                    <Checkbox checked={t.done} onCheckedChange={(v) => markTask(i, !!v)} />
                     <span className={`${t.done ? "line-through text-muted-foreground" : ""}`}>{t.text}</span>
                   </label>
                 ))}
