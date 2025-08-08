@@ -105,7 +105,7 @@ export default function StudyHub() {
               </TabsTrigger>
             ))}
           </TabsList>
-          {BRANCHES.map((b) =&gt; (
+          {BRANCHES.map((b) => (
             <TabsContent key={b.slug} value={b.slug} className="mt-5">
               <div className="grid md:grid-cols-3 gap-6">
                 <Card className="md:col-span-2">
