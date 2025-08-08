@@ -26,7 +26,7 @@ export default function QuizPlay({ branchSlug, questions = [], onComplete }) {
     const correct = selected === current.answer;
     setScore((s) => s + (correct ? 1 : 0));
 
-    if (index + 1 &lt; total) {
+    if (index + 1 < total) {
       setIndex(index + 1);
       setSelected(null);
     } else {
