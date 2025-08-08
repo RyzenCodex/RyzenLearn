@@ -51,7 +51,7 @@ export default function QuizPlay({ branchSlug, questions = [], onComplete }) {
             {current.options?.map((opt, i) => (
               <label key={i} className={`flex items-center gap-3 rounded-md border p-3 cursor-pointer transition-colors ${selected === i ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20" : "hover:bg-muted/50"}`}>
                 <input type="radio" name="opt" className="accent-emerald-600 h-4 w-4" checked={selected === i} onChange={() => select(i)} />
-                &lt;span>{opt}&lt;/span>
+                <span>{opt}</span>
               &lt;/label>
             ))}
           &lt;/RadioGroup>
