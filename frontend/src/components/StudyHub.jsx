@@ -183,7 +183,7 @@ export default function StudyHub() {
                   </label>
                 ))}
                 <div className="flex gap-2">
-                  <Input placeholder="Add a custom task" value={newTask} onChange={(e) =&gt; setNewTask(e.target.value)} />
+                  <Input placeholder="Add a custom task" value={newTask} onChange={(e) => setNewTask(e.target.value)} />
                   <Button onClick={addTask} className="bg-emerald-600 hover:bg-emerald-700 text-white"><Plus className="h-4 w-4 mr-1" />Add</Button>
                 </div>
               </div>
