@@ -66,6 +66,6 @@ export default function QuizPlay({ branchSlug, questions = [], onComplete }) {
       <CardFooter className="flex justify-end">
         <Button onClick={next} className="bg-emerald-600 hover:bg-emerald-700 text-white">{index + 1 === total ? "Finish" : "Next"}</Button>
       </CardFooter>
-    &lt;/Card>
+    </Card>
   );
 }
