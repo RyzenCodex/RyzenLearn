@@ -124,7 +124,7 @@ export default function StudyHub() {
                     <div>
                       <h4 className="font-medium mb-2">Key Ideas</h4>
                       <ul className="list-disc pl-5 space-y-1 text-sm">
-                        {b.keyIdeas.map((k, i) =&gt; <li key={i}>{k}</li>)}
+                        {b.keyIdeas.map((k, i) => <li key={i}>{k}</li>)}
                       </ul>
                       <h4 className="font-medium mt-4 mb-2">Influential Psychologists</h4>
                       <div className="flex flex-wrap gap-2">
