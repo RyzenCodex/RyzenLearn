@@ -46,7 +46,7 @@ export default function QuizPlay({ branchSlug, questions = [], onComplete }) {
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="text-base font-medium">{current.q}</div>
-        &lt;div className="grid gap-2">
+        <div className="grid gap-2">
           &lt;RadioGroup value={String(selected)} onValueChange={(v) => select(Number(v))}>
             {current.options?.map((opt, i) => (
               &lt;label key={i} className={`flex items-center gap-3 rounded-md border p-3 cursor-pointer transition-colors ${selected === i ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20" : "hover:bg-muted/50"}`}>
