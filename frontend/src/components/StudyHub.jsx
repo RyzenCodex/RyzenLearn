@@ -38,7 +38,7 @@ export default function StudyHub() {
     updateTasks(active, updated);
   };
 
-  const addTask = () =&gt; {
+  const addTask = () => {
     if (!newTask.trim()) return;
     const updated = [...tasks, { text: newTask.trim(), done: false }];
     setTasks(updated);
