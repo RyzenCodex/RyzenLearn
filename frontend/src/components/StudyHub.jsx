@@ -246,7 +246,7 @@ export default function StudyHub() {
           <h2 className="text-xl font-semibold">Resources</h2>
         </div>
         <div className="grid md:grid-cols-3 gap-6">
-          {BRANCHES.map((b) =&gt; (
+          {BRANCHES.map((b) => (
             <Card key={b.slug}>
               <CardHeader>
                 <CardTitle className="text-base">{b.name}</CardTitle>
