@@ -46,7 +46,7 @@ export default function StudyHub() {
     setNewTask("");
   };
 
-  const resourcesCopy = async (url) =&gt; {
+  const resourcesCopy = async (url) => {
     try {
       await navigator.clipboard.writeText(url);
       toast({ title: "Link copied", description: "Paste in your notes or share." });
