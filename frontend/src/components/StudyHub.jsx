@@ -99,7 +99,7 @@ export default function StudyHub() {
         </div>
         <Tabs value={active} onValueChange={setActive}>
           <TabsList className="flex flex-wrap gap-2">
-            {BRANCHES.map((b) =&gt; (
+            {BRANCHES.map((b) => (
               <TabsTrigger key={b.slug} value={b.slug} className="data-[state=active]:bg-emerald-100 data-[state=active]:text-emerald-900 dark:data-[state=active]:bg-emerald-900/30 dark:data-[state=active]:text-emerald-100">
                 {b.name}
               </TabsTrigger>
