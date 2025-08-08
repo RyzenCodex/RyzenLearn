@@ -33,7 +33,7 @@ export default function StudyHub() {
   };
 
   const markTask = (i, done) => {
-    const updated = tasks.map((t, idx) =&gt; (idx === i ? { ...t, done } : t));
+    const updated = tasks.map((t, idx) => (idx === i ? { ...t, done } : t));
     setTasks(updated);
     updateTasks(active, updated);
   };
