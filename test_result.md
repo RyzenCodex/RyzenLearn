@@ -277,7 +277,13 @@ metadata:
   run_ui: false
 
 test_plan:
-  current_focus: []
+  current_focus:
+  - "UI loads & theme toggle"
+  - "Branches & content render"
+  - "Planner tasks CRUD"
+  - "Bookmarks toggle"
+  - "Quiz flow & best score"
+  - "Resources copy and Notes autosave"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
