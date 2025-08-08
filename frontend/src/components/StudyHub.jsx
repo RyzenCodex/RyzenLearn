@@ -196,7 +196,7 @@ export default function StudyHub() {
             <CardContent>
               {(() => {
                 const total = tasks.length || 1;
-                const done = tasks.filter((t) =&gt; t.done).length;
+                const done = tasks.filter((t) => t.done).length;
                 const v = Math.round((done / total) * 100);
                 return (
                   <div className="space-y-3">
