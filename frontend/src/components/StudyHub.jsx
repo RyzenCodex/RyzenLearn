@@ -225,7 +225,7 @@ export default function StudyHub() {
               <Select value={branchForQuiz} onValueChange={(v) => setBranchForQuiz(v)}>
                 <SelectTrigger><SelectValue placeholder="Select a branch" /></SelectTrigger>
                 <SelectContent>
-                  {BRANCHES.map((b) =&gt; (
+                  {BRANCHES.map((b) => (
                     <SelectItem key={b.slug} value={b.slug}>{b.name}</SelectItem>
                   ))}
                 </SelectContent>
