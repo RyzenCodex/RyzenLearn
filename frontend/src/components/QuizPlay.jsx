@@ -63,7 +63,7 @@ export default function QuizPlay({ branchSlug, questions = [], onComplete }) {
         )}
         <Progress value={progress} className="h-2" />
       </CardContent>
-      &lt;CardFooter className="flex justify-end">
+      <CardFooter className="flex justify-end">
         &lt;Button onClick={next} className="bg-emerald-600 hover:bg-emerald-700 text-white">{index + 1 === total ? "Finish" : "Next"}&lt;/Button>
       &lt;/CardFooter>
     &lt;/Card>
