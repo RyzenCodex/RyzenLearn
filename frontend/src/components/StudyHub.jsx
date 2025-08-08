@@ -53,7 +53,7 @@ export default function StudyHub() {
     } catch { /* noop */ }
   };
 
-  const onQuizComplete = ({ score }) =&gt; {
+  const onQuizComplete = ({ score }) => {
     const prev = getQuizProgress(branchForQuiz);
     const best = Math.max(prev.best || 0, score);
     setQuizProgress(branchForQuiz, { best });
