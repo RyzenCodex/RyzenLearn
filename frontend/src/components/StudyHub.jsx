@@ -32,7 +32,7 @@ export default function StudyHub() {
     toast({ title: isNow ? "Bookmarked" : "Removed", description: `${branch.name} ${isNow ? "saved" : "removed"} in your bookmarks.` });
   };
 
-  const markTask = (i, done) =&gt; {
+  const markTask = (i, done) => {
     const updated = tasks.map((t, idx) =&gt; (idx === i ? { ...t, done } : t));
     setTasks(updated);
     updateTasks(active, updated);
