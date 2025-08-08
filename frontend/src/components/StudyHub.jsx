@@ -27,7 +27,7 @@ export default function StudyHub() {
 
   const branch = useMemo(() => BRANCHES.find((b) => b.slug === active), [active]);
 
-  const toggleBm = (slug) =&gt; {
+  const toggleBm = (slug) => {
     const isNow = toggleBookmark(slug);
     toast({ title: isNow ? "Bookmarked" : "Removed", description: `${branch.name} ${isNow ? "saved" : "removed"} in your bookmarks.` });
   };
