@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { BRANCHES, toggleBookmark, isBookmarked, getTasks, updateTasks, getQuizProgress, setQuizProgress } from "../mock";
+import { api, getClientId } from "../services/api";
 import { Button } from "../components/ui/button";
 import { Card, CardHeader, CardContent, CardTitle } from "../components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../components/ui/tabs";
@@ -10,40 +10,105 @@ import { Textarea } from "../components/ui/textarea";
 import { Checkbox } from "../components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
 import { Separator } from "../components/ui/separator";
+import { Skeleton } from "../components/ui/skeleton";
 import QuizPlay from "./QuizPlay";
 import { toast } from "../hooks/use-toast";
 import { Bookmark, BookOpen, Brain, Link as LinkIcon, Plus, CheckCircle2 } from "lucide-react";
 
 export default function StudyHub() {
-  const [active, setActive] = useState(BRANCHES[0]?.slug || "cognitive");
-  const [tasks, setTasks] = useState(getTasks(active));
+  const clientId = useMemo(() => getClientId(), []);
+  const [branches, setBranches] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [active, setActive] = useState(null);
+  const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
-  const [branchForQuiz, setBranchForQuiz] = useState(active);
+  const [branchForQuiz, setBranchForQuiz] = useState(null);
   const [quizKey, setQuizKey] = useState(0);
+  const [bookmarks, setBookmarks] = useState({});
+  const [quizMap, setQuizMap] = useState({});
+  const [notes, setNotes] = useState("");
 
+  // Initial load
   useEffect(() => {
-    setTasks(getTasks(active));
-  }, [active]);
+    let mounted = true;
+    (async () => {
+      try {
+        const [brs, state, quiz, notesRes] = await Promise.all([
+          api.getBranches(),
+          api.getState(clientId),
+          api.getQuiz(clientId),
+          api.getNotes(clientId),
+        ]);
+        if (!mounted) return;
+        setBranches(brs);
+        setBookmarks(state.bookmarks || {});
+        setQuizMap(quiz || {});
+        setNotes(notesRes?.notes || "");
+        const firstSlug = brs[0]?.slug || null;
+        setActive(firstSlug);
+        setBranchForQuiz(firstSlug);
+      } catch (e) {
+        console.error(e);
+        toast({ title: "Load failed", description: "Retry in a moment." });
+      } finally {
+        setLoading(false);
+      }
+    })();
+    return () => { mounted = false; };
+  }, [clientId]);
 
-  const branch = useMemo(() => BRANCHES.find((b) => b.slug === active), [active]);
+  // Load tasks when active changes
+  useEffect(() => {
+    (async () => {
+      if (!active) return;
+      try {
+        const ts = await api.getTasks(clientId, active);
+        setTasks(ts);
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+  }, [active, clientId]);
 
-  const toggleBm = (slug) => {
-    const isNow = toggleBookmark(slug);
-    toast({ title: isNow ? "Bookmarked" : "Removed", description: `${branch.name} ${isNow ? "saved" : "removed"} in your bookmarks.` });
+  const branch = useMemo(() => branches.find((b) => b.slug === active), [branches, active]);
+
+  const isBookmarked = (slug) => !!bookmarks[slug];
+
+  const toggleBm = async (slug) => {
+    const optimistic = !isBookmarked(slug);
+    setBookmarks((m) => ({ ...m, [slug]: optimistic }));
+    try {
+      await api.setBookmark(clientId, slug, optimistic);
+      toast({ title: optimistic ? "Bookmarked" : "Removed", description: `${branches.find(b=>b.slug===slug)?.name || slug} ${optimistic ? "saved" : "removed"}.` });
+    } catch (e) {
+      // revert
+      setBookmarks((m) => ({ ...m, [slug]: !optimistic }));
+      toast({ title: "Network error", description: "Could not update bookmark." });
+    }
   };
 
-  const markTask = (i, done) => {
-    const updated = tasks.map((t, idx) => (idx === i ? { ...t, done } : t));
+  const markTask = async (i, done) => {
+    const updated = tasks.map((t, idx) => (idx === i ? { ...t, done: !!done } : t));
     setTasks(updated);
-    updateTasks(active, updated);
+    try {
+      await api.putTasks(clientId, active, updated);
+    } catch (e) {
+      console.error(e);
+      toast({ title: "Save failed", description: "Task update not saved." });
+    }
   };
 
-  const addTask = () => {
+  const addTask = async () => {
     if (!newTask.trim()) return;
     const updated = [...tasks, { text: newTask.trim(), done: false }];
     setTasks(updated);
-    updateTasks(active, updated);
     setNewTask("");
+    try {
+      await api.putTasks(clientId, active, updated);
+    } catch (e) {
+      console.error(e);
+      toast({ title: "Save failed", description: "Task add not saved." });
+    }
   };
 
   const resourcesCopy = async (url) => {
@@ -53,14 +118,39 @@ export default function StudyHub() {
     } catch { /* noop */ }
   };
 
-  const onQuizComplete = ({ score }) => {
-    const prev = getQuizProgress(branchForQuiz);
-    const best = Math.max(prev.best || 0, score);
-    setQuizProgress(branchForQuiz, { best });
-    setQuizKey((k) => k + 1);
+  const onQuizComplete = async ({ score }) => {
+    try {
+      await api.putQuizBest(clientId, branchForQuiz, score);
+      setQuizMap((m) => ({ ...m, [branchForQuiz]: { ...(m[branchForQuiz] || {}), best: score } }));
+      setQuizKey((k) => k + 1);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
-  const bestScore = getQuizProgress(branchForQuiz).best || 0;
+  const bestScore = quizMap?.[branchForQuiz]?.best || 0;
+
+  // Notes autosave
+  useEffect(() => {
+    if (loading) return;
+    const id = setTimeout(async () => {
+      try { await api.putNotes(clientId, notes || ""); } catch {}
+    }, 600);
+    return () => clearTimeout(id);
+  }, [notes, clientId, loading]);
+
+  if (loading) {
+    return (
+      <div className="container mx-auto px-6 py-10 space-y-6">
+        <Skeleton className="h-10 w-1/3" />
+        <div className="grid md:grid-cols-3 gap-6">
+          <Skeleton className="h-56 w-full" />
+          <Skeleton className="h-56 w-full" />
+          <Skeleton className="h-56 w-full" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen">
@@ -81,11 +171,13 @@ export default function StudyHub() {
                 </Button>
               </div>
               <div className="mt-4 flex items-center gap-2 text-sm text-muted-foreground">
-                <CheckCircle2 className="h-4 w-4 text-emerald-600" /> Progress and bookmarks saved locally
+                <CheckCircle2 className="h-4 w-4 text-emerald-600" /> Progress and bookmarks saved to your account (device)
               </div>
             </div>
             <div className="relative">
-              <img src={branch.heroImage} alt="psychology hero" className="w-full rounded-xl border shadow-sm object-cover aspect-video" />
+              {branch?.heroImage && (
+                <img src={branch.heroImage} alt="psychology hero" className="w-full rounded-xl border shadow-sm object-cover aspect-video" />
+              )}
             </div>
           </div>
         </div>
@@ -97,15 +189,15 @@ export default function StudyHub() {
           <Brain className="h-5 w-5 text-emerald-600" />
           <h2 className="text-xl font-semibold">Branches</h2>
         </div>
-        <Tabs value={active} onValueChange={setActive}>
+        <Tabs value={active || undefined} onValueChange={setActive}>
           <TabsList className="flex flex-wrap gap-2">
-            {BRANCHES.map((b) => (
+            {branches.map((b) => (
               <TabsTrigger key={b.slug} value={b.slug} className="data-[state=active]:bg-emerald-100 data-[state=active]:text-emerald-900 dark:data-[state=active]:bg-emerald-900/30 dark:data-[state=active]:text-emerald-100">
                 {b.name}
               </TabsTrigger>
             ))}
           </TabsList>
-          {BRANCHES.map((b) => (
+          {branches.map((b) => (
             <TabsContent key={b.slug} value={b.slug} className="mt-5">
               <div className="grid md:grid-cols-3 gap-6">
                 <Card className="md:col-span-2">
@@ -172,7 +264,7 @@ export default function StudyHub() {
         <div className="grid md:grid-cols-3 gap-6">
           <Card className="md:col-span-2">
             <CardHeader>
-              <CardTitle className="text-base">Tasks for {branch.name}</CardTitle>
+              <CardTitle className="text-base">Tasks for {branch?.name}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
@@ -222,10 +314,10 @@ export default function StudyHub() {
               <CardTitle className="text-base">Choose Branch</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              <Select value={branchForQuiz} onValueChange={(v) => setBranchForQuiz(v)}>
+              <Select value={branchForQuiz || undefined} onValueChange={(v) => setBranchForQuiz(v)}>
                 <SelectTrigger><SelectValue placeholder="Select a branch" /></SelectTrigger>
                 <SelectContent>
-                  {BRANCHES.map((b) => (
+                  {branches.map((b) => (
                     <SelectItem key={b.slug} value={b.slug}>{b.name}</SelectItem>
                   ))}
                 </SelectContent>
@@ -234,7 +326,9 @@ export default function StudyHub() {
             </CardContent>
           </Card>
           <div className="md:col-span-2">
-            <QuizPlay key={quizKey} branchSlug={branchForQuiz} questions={BRANCHES.find((b) => b.slug === branchForQuiz)?.quiz || []} onComplete={onQuizComplete} />
+            {branchForQuiz && (
+              <QuizPlay key={quizKey} branchSlug={branchForQuiz} questions={branches.find((b) => b.slug === branchForQuiz)?.quiz || []} onComplete={onQuizComplete} />
+            )}
           </div>
         </div>
       </section>
@@ -246,7 +340,7 @@ export default function StudyHub() {
           <h2 className="text-xl font-semibold">Resources</h2>
         </div>
         <div className="grid md:grid-cols-3 gap-6">
-          {BRANCHES.map((b) => (
+          {branches.map((b) => (
             <Card key={b.slug}>
               <CardHeader>
                 <CardTitle className="text-base">{b.name}</CardTitle>
@@ -271,7 +365,7 @@ export default function StudyHub() {
             <CardTitle className="text-base">Quick Notes</CardTitle>
           </CardHeader>
           <CardContent>
-            <Textarea placeholder="Jot down key takeaways... (saved by your browser if you keep the tab)" className="min-h-[120px]" />
+            <Textarea placeholder="Jot down key takeaways... (auto-saved)" className="min-h-[120px]" value={notes} onChange={(e) => setNotes(e.target.value)} />
           </CardContent>
         </Card>
       </section>

@@ -26,7 +26,6 @@ function Layout({ children }) {
       try {
         await axios.get(`${API}/`);
       } catch (e) {
-        // Silent in UI; this is just a connectivity hint for later backend integration
         console.debug("/api ping skipped or failed (expected in mock phase)");
       }
     };
