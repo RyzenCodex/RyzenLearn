@@ -252,7 +252,7 @@ export default function StudyHub() {
                 <CardTitle className="text-base">{b.name}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
-                {b.resources.map((r, i) =&gt; (
+                {b.resources.map((r, i) => (
                   <div key={i} className="flex items-center justify-between gap-2 text-sm">
                     <a className="text-emerald-700 dark:text-emerald-400 hover:underline" href={r.url} target="_blank" rel="noreferrer">{r.title}</a>
                     <Button size="sm" variant="ghost" onClick={() =&gt; resourcesCopy(r.url)}>Copy</Button>
