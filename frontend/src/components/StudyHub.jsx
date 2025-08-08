@@ -144,7 +144,7 @@ export default function StudyHub() {
                   </CardHeader>
                   <CardContent className="space-y-3 text-sm">
                     <div className="space-y-2">
-                      {b.mnemonics.map((m, i) =&gt; (
+                      {b.mnemonics.map((m, i) => (
                         <div key={i} className="rounded-md border p-2">
                           <div className="font-medium">{m.title}</div>
                           <div className="text-muted-foreground">{m.hint}</div>
