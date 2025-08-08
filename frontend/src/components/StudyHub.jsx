@@ -25,7 +25,7 @@ export default function StudyHub() {
     setTasks(getTasks(active));
   }, [active]);
 
-  const branch = useMemo(() => BRANCHES.find((b) =&gt; b.slug === active), [active]);
+  const branch = useMemo(() => BRANCHES.find((b) => b.slug === active), [active]);
 
   const toggleBm = (slug) =&gt; {
     const isNow = toggleBookmark(slug);
