@@ -55,7 +55,7 @@ export default function QuizPlay({ branchSlug, questions = [], onComplete }) {
               </label>
             ))}
           </RadioGroup>
-        &lt;/div>
+        </div>
         {selected != null && (
           &lt;p className={`text-sm ${selected === current.answer ? "text-emerald-700 dark:text-emerald-400" : "text-red-600 dark:text-red-400"}`}>
             {selected === current.answer ? "Correct!" : "Not quite."} {current.explain}
