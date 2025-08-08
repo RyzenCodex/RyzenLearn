@@ -44,7 +44,7 @@ export default function QuizPlay({ branchSlug, questions = [], onComplete }) {
         <CardTitle className="text-lg">Quick Quiz &middot; <span className="text-emerald-600">{branchSlug}</span></CardTitle>
         <Badge variant="secondary">{index + 1} / {total}</Badge>
       </CardHeader>
-      &lt;CardContent className="space-y-4">
+      <CardContent className="space-y-4">
         &lt;div className="text-base font-medium">{current.q}&lt;/div>
         &lt;div className="grid gap-2">
           &lt;RadioGroup value={String(selected)} onValueChange={(v) => select(Number(v))}>
