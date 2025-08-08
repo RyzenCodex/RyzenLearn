@@ -222,7 +222,7 @@ export default function StudyHub() {
               <CardTitle className="text-base">Choose Branch</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              <Select value={branchForQuiz} onValueChange={(v) =&gt; setBranchForQuiz(v)}>
+              <Select value={branchForQuiz} onValueChange={(v) => setBranchForQuiz(v)}>
                 <SelectTrigger><SelectValue placeholder="Select a branch" /></SelectTrigger>
                 <SelectContent>
                   {BRANCHES.map((b) =&gt; (
