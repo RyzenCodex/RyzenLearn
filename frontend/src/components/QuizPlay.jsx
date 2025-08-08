@@ -42,7 +42,7 @@ export default function QuizPlay({ branchSlug, questions = [], onComplete }) {
     <Card className="border-emerald-300/40 shadow-sm"> 
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle className="text-lg">Quick Quiz &middot; <span className="text-emerald-600">{branchSlug}</span></CardTitle>
-        &lt;Badge variant="secondary">{index + 1} / {total}&lt;/Badge>
+        <Badge variant="secondary">{index + 1} / {total}</Badge>
       &lt;/CardHeader>
       &lt;CardContent className="space-y-4">
         &lt;div className="text-base font-medium">{current.q}&lt;/div>
