@@ -202,7 +202,73 @@ backend:
         comment: "GET /api/branches/unknown returns 404. PUT /api/state/{clientId}/tasks/unknown returns 404. PUT /api/state/{clientId}/bookmarks/unknown returns 404. All error cases handled properly"
 
 frontend:
-  # Frontend testing not performed as per instructions
+  - task: "UI loads & theme toggle"
+    implemented: true
+    working: false
+    file: "frontend/src/App.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "main"
+        comment: "Need automated verification for layout render, hero, branches tabs, and dark mode toggle"
+  - task: "Branches & content render"
+    implemented: true
+    working: false
+    file: "frontend/src/components/StudyHub.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "main"
+        comment: "Verify tabs switch branches, key ideas and psychologists badges visible"
+  - task: "Planner tasks CRUD"
+    implemented: true
+    working: false
+    file: "frontend/src/components/StudyHub.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "main"
+        comment: "Check checking/unchecking a task persists via backend, and adding a custom task works"
+  - task: "Bookmarks toggle"
+    implemented: true
+    working: false
+    file: "frontend/src/components/StudyHub.jsx"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "main"
+        comment: "Verify bookmark state visually and via API after toggle"
+  - task: "Quiz flow & best score"
+    implemented: true
+    working: false
+    file: "frontend/src/components/QuizPlay.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "main"
+        comment: "Run through quiz, confirm explanation text, progress bar, and best score persistence"
+  - task: "Resources copy and Notes autosave"
+    implemented: true
+    working: false
+    file: "frontend/src/components/StudyHub.jsx"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "main"
+        comment: "Check copy button copies URL and notes autosave hits backend"
+
 
 metadata:
   created_by: "testing_agent"
