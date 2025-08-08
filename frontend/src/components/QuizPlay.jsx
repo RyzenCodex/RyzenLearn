@@ -39,7 +39,7 @@ export default function QuizPlay({ branchSlug, questions = [], onComplete }) {
   if (!total) return null;
 
   return (
-    &lt;Card className="border-emerald-300/40 shadow-sm"> 
+    <Card className="border-emerald-300/40 shadow-sm"> 
       &lt;CardHeader className="flex flex-row items-center justify-between">
         &lt;CardTitle className="text-lg">Quick Quiz &middot; &lt;span className="text-emerald-600">{branchSlug}&lt;/span>&lt;/CardTitle>
         &lt;Badge variant="secondary">{index + 1} / {total}&lt;/Badge>
