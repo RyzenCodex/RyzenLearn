@@ -59,7 +59,7 @@ export default function QuizPlay({ branchSlug, questions = [], onComplete }) {
         {selected != null && (
           <p className={`text-sm ${selected === current.answer ? "text-emerald-700 dark:text-emerald-400" : "text-red-600 dark:text-red-400"}`}>
             {selected === current.answer ? "Correct!" : "Not quite."} {current.explain}
-          &lt;/p>
+          </p>
         )}
         &lt;Progress value={progress} className="h-2" />
       &lt;/CardContent>
