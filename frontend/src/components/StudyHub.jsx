@@ -115,7 +115,7 @@ export default function StudyHub() {
                         <CardTitle className="text-lg">{b.name} <Badge className="ml-2" variant="secondary">{b.level}</Badge></CardTitle>
                         <p className="text-sm text-muted-foreground">{b.summary}</p>
                       </div>
-                      <Button variant={isBookmarked(b.slug) ? "default" : "secondary"} className={isBookmarked(b.slug) ? "bg-emerald-600 hover:bg-emerald-700 text-white" : ""} onClick={() =&gt; toggleBm(b.slug)}>
+                      <Button variant={isBookmarked(b.slug) ? "default" : "secondary"} className={isBookmarked(b.slug) ? "bg-emerald-600 hover:bg-emerald-700 text-white" : ""} onClick={() => toggleBm(b.slug)}>
                         <Bookmark className="h-4 w-4 mr-2" /> {isBookmarked(b.slug) ? "Bookmarked" : "Bookmark"}
                       </Button>
                     </div>
