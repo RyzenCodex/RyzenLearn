@@ -73,7 +73,7 @@ export default function StudyHub() {
               <h1 className="text-3xl md:text-4xl font-bold tracking-tight">Psychology Study Hub</h1>
               <p className="mt-3 text-muted-foreground max-w-prose">Master core branches, key theories, and real-world applications. Study plans, quizzes, mnemonics, and curated resources — all in one place.</p>
               <div className="mt-5 flex gap-3">
-                <Button className="bg-emerald-600 hover:bg-emerald-700 text-white" onClick={() =&gt; document.getElementById("branches").scrollIntoView({ behavior: "smooth" })}>
+                <Button className="bg-emerald-600 hover:bg-emerald-700 text-white" onClick={() => document.getElementById("branches").scrollIntoView({ behavior: "smooth" })}>
                   Explore Branches
                 </Button>
                 <Button variant="secondary" onClick={() =&gt; document.getElementById("quiz").scrollIntoView({ behavior: "smooth" })}>
